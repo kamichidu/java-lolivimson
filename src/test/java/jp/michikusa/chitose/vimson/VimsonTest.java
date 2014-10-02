@@ -10,6 +10,8 @@ import java.util.LinkedHashMap;
 import java.util.Collections;
 import java.util.Collection;
 
+import jp.michikusa.chitose.lolivimson.Vimson;
+
 /**
  * Unit test for simple App.
  */
