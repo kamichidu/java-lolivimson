@@ -4,15 +4,24 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
     >
     <modelVersion>4.0.0</modelVersion>
-    <groupId>jp.michikusa.chitose.vimson</groupId>
-    <artifactId>vimson</artifactId>
+    <groupId>jp.michikusa.chitose.lolivimson</groupId>
+    <artifactId>lolivimson</artifactId>
     <packaging>jar</packaging>
-    <version>0.01-snapshot</version>
-    <name>vimson</name>
-    <url>http://maven.apache.org</url>
+    <name>lolivimson</name>
+    <version>0.0.0</version>
+    <url>https://github.com/kamichidu/java-lolivimson</url>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <lolivimson.java.target.version>1.7</lolivimson.java.target.version>
+        <lolivimson.java.source.version>1.7</lolivimson.java.source.version>
+        <lolivimson.source.encoding>UTF-8</lolivimson.source.encoding>
     </properties>
 
     <build>
@@ -23,9 +32,9 @@
                 <version>3.0</version>
 
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                    <encoding>UTF-8</encoding>
+                    <source>${lolivimson.java.source.version}</source>
+                    <target>${lolivimson.java.target.version}</target>
+                    <encoding>${lolivimson.source.encoding}</encoding>
                     <compilerArgument>-Xlint:all</compilerArgument>
                 </configuration>
             </plugin>
@@ -38,6 +47,24 @@
             <artifactId>junit</artifactId>
             <version>[4,)</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4-runtime</artifactId>
+            <version>4.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.7</version>
         </dependency>
     </dependencies>
 </project>
