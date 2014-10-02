@@ -8,7 +8,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-import static com.google.common.base.Preconditions.*;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class VimsonGenerator
@@ -277,5 +277,5 @@ public class VimsonGenerator
 
     private final Charset charset;
 
-    private final Deque<Context> context = new ArrayDeque<>();
+    private final Deque<Context> context = new ArrayDeque<Context>();
 }

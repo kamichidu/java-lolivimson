@@ -19,8 +19,8 @@
     </licenses>
 
     <properties>
-        <lolivimson.java.target.version>1.7</lolivimson.java.target.version>
-        <lolivimson.java.source.version>1.7</lolivimson.java.source.version>
+        <lolivimson.java.target.version>1.6</lolivimson.java.target.version>
+        <lolivimson.java.source.version>1.6</lolivimson.java.source.version>
         <lolivimson.source.encoding>UTF-8</lolivimson.source.encoding>
     </properties>
 

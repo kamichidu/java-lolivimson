@@ -1,4 +1,4 @@
-package jp.michikusa.chitose.vimson;
+package jp.michikusa.chitose.lolivimson;
 
 import static org.junit.Assert.assertEquals;
 
@@ -26,7 +26,7 @@ public class VimsonTest
     @Test
     public void encodeNumber()
     {
-        final Map<String, Number> m= new LinkedHashMap<>();
+        final Map<String, Number> m= new LinkedHashMap<String, Number>();
 
         m.put("kub", (byte)9);
         m.put("kus", (short)9);
@@ -41,7 +41,7 @@ public class VimsonTest
     @Test
     public void encodeString()
     {
-        final Map<String, Object> m= new LinkedHashMap<>();
+        final Map<String, Object> m= new LinkedHashMap<String, Object>();
 
         m.put("a", 'A');
         m.put("b", "B");
@@ -53,7 +53,7 @@ public class VimsonTest
     @Test
     public void encodeBoolean()
     {
-        final Map<String, Object> m= new LinkedHashMap<>();
+        final Map<String, Object> m= new LinkedHashMap<String, Object>();
 
         m.put("a", true);
         m.put("b", false);
@@ -64,11 +64,11 @@ public class VimsonTest
     @Test
     public void encodeNestedCollection()
     {
-        final Map<String, Object> m= new LinkedHashMap<>();
+        final Map<String, Object> m= new LinkedHashMap<String, Object>();
 
         m.put("a", Collections.emptyList());
         {
-            final Set<Collection<?>> s= new LinkedHashSet<>();
+            final Set<Collection<?>> s= new LinkedHashSet<Collection<?>>();
 
             s.add(Collections.emptyList());
             s.add(Collections.emptySet());
@@ -82,11 +82,11 @@ public class VimsonTest
     @Test
     public void encodeNestedMap()
     {
-        final Map<String, Object> m= new LinkedHashMap<>();
+        final Map<String, Object> m= new LinkedHashMap<String, Object>();
 
         m.put("a", Collections.emptyMap());
         {
-            final Map<String, Object> in= new LinkedHashMap<>();
+            final Map<String, Object> in= new LinkedHashMap<String, Object>();
 
             in.put("A", Collections.emptyMap());
             in.put("B", "hoge");

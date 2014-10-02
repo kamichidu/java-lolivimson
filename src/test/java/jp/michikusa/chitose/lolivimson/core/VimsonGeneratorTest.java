@@ -1,4 +1,4 @@
-package jp.michikusa.chitose.vimson.core;
+package jp.michikusa.chitose.lolivimson.core;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

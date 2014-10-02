@@ -134,7 +134,7 @@ public class Vimson
     private static final Map<Class<?>, Function<Object, CharSequence>> encoders;
     static
     {
-        final Map<Class<?>, Function<Object, CharSequence>> m= new LinkedHashMap<>();
+        final Map<Class<?>, Function<Object, CharSequence>> m= new LinkedHashMap<Class<?>, Function<Object, CharSequence>>();
 
         m.put(Map.class, new Function<Object, CharSequence>(){
             @Override
