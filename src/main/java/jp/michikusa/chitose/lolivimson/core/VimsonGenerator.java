@@ -8,8 +8,8 @@ import java.nio.charset.Charset;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 public class VimsonGenerator
     implements Closeable, Flushable
@@ -107,17 +107,24 @@ public class VimsonGenerator
         }
     }
 
-    public void writeDictionary(Object value)
+    public void writeObject(Object value)
         throws IOException
     {
-        throw new UnsupportedOperationException("Sorry, unimplemented yet.");
+        final ObjectCodec codec= this.codec;
+
+        if(codec == null)
+        {
+            throw new IllegalStateException();
+        }
+
+        codec.writeValue(this, value);
     }
 
-    public void writeDictionaryField(CharSequence fieldName, Object value)
+    public void writeObjectField(CharSequence fieldName, Object value)
         throws IOException
     {
         this.writeFieldName(fieldName);
-        this.writeDictionary(value);
+        this.writeObject(value);
     }
 
     public void writeStringField(CharSequence fieldName, CharSequence value)
@@ -237,6 +244,16 @@ public class VimsonGenerator
         }
     }
 
+    public void setObjectCodec(ObjectCodec codec)
+    {
+        this.codec= codec;
+    }
+
+    public ObjectCodec getObjectCodec()
+    {
+        return this.codec;
+    }
+
     @Override
     public void flush()
         throws IOException
@@ -278,4 +295,6 @@ public class VimsonGenerator
     private final Charset charset;
 
     private final Deque<Context> context = new ArrayDeque<Context>();
+
+    private ObjectCodec codec;
 }

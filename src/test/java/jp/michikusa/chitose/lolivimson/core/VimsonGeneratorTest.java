@@ -206,4 +206,30 @@ public class VimsonGeneratorTest
 
         assertEquals("['hoge',[0,],]", out.toString());
     }
+
+    @Test
+    public void writeObject()
+        throws IOException
+    {
+        final ByteArrayOutputStream out= new ByteArrayOutputStream();
+        final VimsonGenerator vson= new VimsonGenerator(out);
+        final ObjectCodec codec= new ObjectCodec(){
+            @Override
+            public void writeValue(VimsonGenerator vgen, Object value)
+                throws IOException
+            {
+                final String str= (String)value;
+
+                vgen.writeStartDictionary();
+                vgen.writeStringField("text", str);
+                vgen.writeEndDictionary();
+            }
+        };
+
+        vson.setObjectCodec(codec);
+
+        vson.writeObject("hello");
+
+        assertEquals("{'text':'hello',}", out.toString());
+    }
 }
