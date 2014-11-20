@@ -10,17 +10,21 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import static java.lang.Character.*;
-
 public class VimsonParser
 {
     public VimsonParser(InputStream in)
-        throws IOException
     {
         this.in= new InputStreamReader(in, Charset.forName("UTF-8"));
         this.offset= 0;
-        this.c= (char) this.in.read();
-        this.c2= (char)this.in.read();
+        try
+        {
+            this.c= (char) this.in.read();
+            this.c2= (char)this.in.read();
+        }
+        catch(IOException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
     public <T> T parse(T...type)

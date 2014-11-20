@@ -8,8 +8,8 @@ import java.nio.charset.Charset;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
+import static jp.michikusa.chitose.lolivimson.util.Preconditions.checkNotNull;
+import static jp.michikusa.chitose.lolivimson.util.Preconditions.checkState;
 
 public class VimsonGenerator
     implements Closeable, Flushable
