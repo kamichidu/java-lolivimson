@@ -23,14 +23,17 @@
  */
 package jp.michikusa.chitose.lolivimson;
 
-import static java.lang.Boolean.TRUE;
-
-import java.util.Collections;
-import java.util.Collection;
-import java.util.LinkedHashMap;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.List;
 import java.util.Map;
 
-import jp.michikusa.chitose.vimson.util.Function;
+import jp.michikusa.chitose.lolivimson.core.VimsonGenerator;
+import jp.michikusa.chitose.lolivimson.core.VimsonParser;
+import static jp.michikusa.chitose.lolivimson.util.Preconditions.checkNotNull;
 
 /**
  * java object to vimson (Vim's Dict) encoder/decoder.
@@ -48,169 +51,150 @@ public class Vimson
      * @param map an Map
      * @throws NullPointerException when map is null
      */
-    public static CharSequence encode(Map<? extends CharSequence, ? extends Object> map)
+    public static CharSequence encode(Object value)
     {
-        checkNotNull(map);
+    	checkNotNull(value);
 
-        final StringBuilder builder= new StringBuilder();
+    	try
+    	{
+    		final ByteArrayOutputStream out= new ByteArrayOutputStream();
+    		final VimsonGenerator g= new VimsonGenerator(out);
 
-        builder.append('{');
-        for(Map.Entry<? extends CharSequence, ? extends Object> entry : map.entrySet())
-        {
-            builder
-                .append("'")
-                .append(entry.getKey())
-                .append("':")
-                .append(encode(entry.getValue()))
-                .append(',')
-            ;
-        }
-        builder.append('}');
+    		write(g, value);
 
-        return builder;
+    		return out.toString();
+    	}
+    	catch(IOException e)
+    	{
+    		throw new RuntimeException(e);
+    	}
     }
 
-    public static Map<String, Object> decode(CharSequence vimson)
+    public static <T> T decode(Class<T> type, CharSequence expr)
     {
-        // TODO: implements
-        throw new UnsupportedOperationException("sorry, umimplemented yet.");
-    }
+    	checkNotNull(type);
+    	checkNotNull(expr);
 
-    private static CharSequence encode(Object o)
-    {
-        if(o == null)
+        try
         {
-            return Symbol.NULL;
-        }
+            final ByteArrayInputStream in= new ByteArrayInputStream(expr.toString().getBytes());
+            final VimsonParser parser= new VimsonParser(in);
 
-        final Class<?> arg_clazz= o.getClass();
-        for(Class<?> key_clazz : encoders.keySet())
-        {
-            if(key_clazz.isAssignableFrom(arg_clazz))
+            final Object value= parser.parse();
+
+            if(type.isAssignableFrom(value.getClass()))
             {
-                return encoders.get(key_clazz).apply(o);
+                return type.cast(value);
+            }
+            else
+            {
+                throw new IllegalArgumentException();
             }
         }
-
-        throw new IllegalArgumentException();
-    }
-
-    private static void checkArguments(boolean expr)
-    {
-        if(!expr)
+        catch(IOException e)
         {
-            throw new IllegalArgumentException();
+            throw new RuntimeException(e);
         }
     }
 
-    private static <T> T checkNotNull(T ref)
+    private static void write(VimsonGenerator g, Object value)
+    	throws IOException
     {
-        if(ref == null)
-        {
-            throw new NullPointerException();
-        }
-
-        return ref;
+    	if(value instanceof CharSequence)
+    	{
+    		write(g, (CharSequence)value);
+    	}
+    	else if(value instanceof Number)
+    	{
+    		write(g, (Number)value);
+    	}
+    	else if(value instanceof Map)
+    	{
+    		write(g, (Map<?, ?>)value);
+    	}
+    	else if(value instanceof List)
+    	{
+    		write(g, (List<?>)value);
+    	}
+    	else
+    	{
+    		throw new UnsupportedOperationException();
+    	}
     }
 
-    private static void checkState(boolean expr)
+    private static void write(VimsonGenerator g, Map<?, ? extends Object> value)
+    	throws IOException
     {
-        if(!expr)
-        {
-            throw new IllegalStateException();
-        }
+    	g.writeStartDictionary();
+    	for(final Object key : value.keySet())
+    	{
+    		if(!(key instanceof CharSequence))
+    		{
+    			throw new UnsupportedOperationException();
+    		}
+
+    		g.writeFieldName((CharSequence)key);
+
+    		write(g, value.get(key));
+    	}
+    	g.writeEndDictionary();
     }
 
-    // private block
-    private Vimson(){}
-
-    private static interface Symbol
+    private static void write(VimsonGenerator g, List<?> value)
+    	throws IOException
     {
-        final CharSequence NULL= "0";
-        final CharSequence TRUE= "1";
-        final CharSequence FALSE= "0";
+    	g.writeStartList();
+    	for(final Object elm : value)
+    	{
+    		write(g, elm);
+    	}
+    	g.writeEndList();
     }
 
-    private static final Map<Class<?>, Function<Object, CharSequence>> encoders;
-    static
+    private static void write(VimsonGenerator g, CharSequence value)
+    	throws IOException
     {
-        final Map<Class<?>, Function<Object, CharSequence>> m= new LinkedHashMap<Class<?>, Function<Object, CharSequence>>();
+    	g.writeString(value);
+    }
 
-        m.put(Map.class, new Function<Object, CharSequence>(){
-            @Override
-            public CharSequence apply(Object o)
-            {
-                checkArguments(o instanceof Map);
-
-                @SuppressWarnings("unchecked")
-                final Map<CharSequence, Object> map= (Map<CharSequence, Object>)o;
-
-                return encode(map);
-            }
-        });
-        m.put(Collection.class, new Function<Object, CharSequence>(){
-            @Override
-            public CharSequence apply(Object o)
-            {
-                checkArguments(o instanceof Collection);
-
-                final Collection<?> col= (Collection<?>)o;
-                final StringBuilder builder= new StringBuilder();
-
-                builder.append('[');
-                for(Object elm : col)
-                {
-                    builder.append(encode(elm)).append(',');
-                }
-                builder.append(']');
-
-                return builder;
-            }
-        });
-        m.put(Number.class, new Function<Object, CharSequence>(){
-            @Override
-            public CharSequence apply(Object o)
-            {
-                // 32bit integer is max size of vim's number
-                return o.toString();
-            }
-        });
-        {
-            final Function<Object, CharSequence> encoder= new Function<Object, CharSequence>(){
-                @Override
-                public CharSequence apply(Object o)
-                {
-                    return "'" + o + "'";
-                }
-            };
-            m.put(CharSequence.class, encoder);
-            m.put(Character.class, encoder);
-        }
-        m.put(Boolean.class, new Function<Object, CharSequence>(){
-            @Override
-            public CharSequence apply(Object o)
-            {
-                checkArguments(o instanceof Boolean);
-
-                if(TRUE.equals(o))
-                {
-                    return Symbol.TRUE;
-                }
-                else
-                {
-                    return Symbol.FALSE;
-                }
-            }
-        });
-        m.put(Object.class, new Function<Object, CharSequence>(){
-            @Override
-            public CharSequence apply(Object o)
-            {
-                throw new IllegalArgumentException("can't encode java.lang.Object");
-            }
-        });
-
-        encoders= Collections.unmodifiableMap(m);
+    private static void write(VimsonGenerator g, Number value)
+    	throws IOException
+    {
+    	if(value instanceof Integer)
+    	{
+    		g.writeNumber((Integer)value);
+    	}
+    	else if(value instanceof Long)
+    	{
+    		g.writeNumber((Long)value);
+    	}
+    	else if(value instanceof Double)
+    	{
+    		g.writeFloat((Double)value);
+    	}
+    	else if(value instanceof Float)
+    	{
+    		g.writeFloat((Float)value);
+    	}
+    	else if(value instanceof Byte)
+    	{
+    		g.writeNumber((Byte)value);
+    	}
+    	else if(value instanceof Short)
+    	{
+    		g.writeNumber((Short)value);
+    	}
+    	else if(value instanceof BigDecimal)
+    	{
+    		g.writeFloat(((BigDecimal)value).doubleValue());
+    	}
+    	else if(value instanceof BigInteger)
+    	{
+    		g.writeNumber(((BigInteger)value).longValue());
+    	}
+    	else
+    	{
+    		throw new UnsupportedOperationException();
+    	}
     }
 }
-
