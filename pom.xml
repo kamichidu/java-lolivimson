@@ -8,7 +8,7 @@
     <artifactId>lolivimson</artifactId>
     <packaging>jar</packaging>
     <name>lolivimson</name>
-    <version>0.0.0</version>
+    <version>0.0.0-SNAPSHOT</version>
     <url>https://github.com/kamichidu/java-lolivimson</url>
     <licenses>
         <license>
@@ -23,6 +23,21 @@
         <lolivimson.java.source.version>1.6</lolivimson.java.source.version>
         <lolivimson.source.encoding>UTF-8</lolivimson.source.encoding>
     </properties>
+
+    <scm>
+        <url>scm:git:https://github.com/kamichidu/java-lolivimson/</url>
+        <connection>scm:git:https://github.com/kamichidu/java-lolivimson/</connection>
+        <developerConnection>scm:git:https://github.com/kamichidu/java-lolivimson/</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>internal.repo</id>
+            <name>Temporary Staging Repository</name>
+            <url>file://${project.build.directory}/mvn-repo</url>
+        </repository>
+    </distributionManagement>
 
     <build>
         <plugins>
@@ -50,4 +65,3 @@
         </dependency>
     </dependencies>
 </project>
-
