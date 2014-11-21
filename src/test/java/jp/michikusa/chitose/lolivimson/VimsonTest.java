@@ -1,16 +1,19 @@
 package jp.michikusa.chitose.lolivimson;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.LinkedHashSet;
-import java.util.LinkedHashMap;
-import java.util.Collections;
-import java.util.Collection;
 
 import jp.michikusa.chitose.lolivimson.Vimson;
+
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Unit test for simple App.
@@ -68,10 +71,10 @@ public class VimsonTest
 
         m.put("a", Collections.emptyList());
         {
-            final Set<Collection<?>> s= new LinkedHashSet<Collection<?>>();
+            final List<Collection<?>> s= new LinkedList<Collection<?>>();
 
             s.add(Collections.emptyList());
-            s.add(Collections.emptySet());
+            s.add(Collections.emptyList());
 
             m.put("b", s);
         }
@@ -100,7 +103,7 @@ public class VimsonTest
     @Test(expected= NullPointerException.class)
     public void encodePassNull()
     {
-        Vimson.encode(null);
+        Vimson.encode((Map<CharSequence, Object>)null);
     }
 
     @Test
