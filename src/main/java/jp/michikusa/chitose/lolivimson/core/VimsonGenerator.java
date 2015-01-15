@@ -271,6 +271,7 @@ public class VimsonGenerator
     public void close()
         throws IOException
     {
+        this.out.flush();
         this.out.close();
     }
 
