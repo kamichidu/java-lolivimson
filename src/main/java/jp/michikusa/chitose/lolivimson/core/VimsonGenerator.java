@@ -226,7 +226,7 @@ public class VimsonGenerator
     public void writeListFieldStart(CharSequence fieldName)
         throws IOException
     {
-        this.writeDictionaryFieldStart(fieldName);
+        this.writeFieldName(fieldName);
         this.writeStartList();
     }
 
