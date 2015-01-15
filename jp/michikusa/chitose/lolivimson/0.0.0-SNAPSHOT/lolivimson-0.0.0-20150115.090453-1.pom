@@ -4,7 +4,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
     >
     <modelVersion>4.0.0</modelVersion>
-    <groupId>jp.michikusa.chitose.lolivimson</groupId>
+    <groupId>jp.michikusa.chitose</groupId>
     <artifactId>lolivimson</artifactId>
     <packaging>jar</packaging>
     <name>lolivimson</name>
