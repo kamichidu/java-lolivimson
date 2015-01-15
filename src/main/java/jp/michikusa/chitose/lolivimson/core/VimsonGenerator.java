@@ -285,7 +285,7 @@ public class VimsonGenerator
     private void write(CharSequence value)
         throws IOException
     {
-        this.out.write(value.toString().getBytes(this.charset));
+        this.out.write((value != null ? value : "").toString().getBytes(this.charset));
     }
 
     private boolean shouldWriteComma()
