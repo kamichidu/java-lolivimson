@@ -24,6 +24,18 @@ public class VimsonGeneratorTest
     }
 
     @Test
+    public void writeRaw()
+        throws IOException
+    {
+        final ByteArrayOutputStream out= new ByteArrayOutputStream();
+        final VimsonGenerator vson= new VimsonGenerator(out);
+
+        vson.writeRaw("hello");
+
+        assertEquals("hello", out.toString());
+    }
+
+    @Test
     public void writeTrue()
         throws IOException
     {

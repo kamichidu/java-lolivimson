@@ -37,6 +37,12 @@ public class VimsonGenerator
         }
     }
 
+    public void writeRaw(CharSequence value)
+        throws IOException
+    {
+        this.write(value);
+    }
+
     public void writeBoolean(boolean value)
         throws IOException
     {
