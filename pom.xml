@@ -77,8 +77,10 @@
                     <message>Maven artifacts for ${project.version}</message>  <!-- git commit message -->
                     <noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
                     <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory> <!-- matches distribution management repository url above -->
-                    <branch>gh-pages</branch>                       <!-- remote branch name -->
-                    <includes><include>**/*</include></includes>
+                    <branch>mvn-repo</branch>                       <!-- remote branch name -->
+                    <includes>
+                        <include>**/*</include>
+                    </includes>
                     <repositoryName>java-lolivimson</repositoryName>      <!-- github repo name -->
                     <repositoryOwner>kamichidu</repositoryOwner>    <!-- github username  -->
                 </configuration>
