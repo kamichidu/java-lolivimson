@@ -4,7 +4,7 @@
     <artifactId>lolivimson</artifactId>
     <packaging>jar</packaging>
     <name>lolivimson</name>
-    <version>0.0.0</version>
+    <version>0.0.1-SNAPSHOT</version>
     <url>https://github.com/kamichidu/java-lolivimson</url>
     <licenses>
         <license>
@@ -26,7 +26,7 @@
         <url>scm:git:https://github.com/kamichidu/java-lolivimson/</url>
         <connection>scm:git:https://github.com/kamichidu/java-lolivimson/</connection>
         <developerConnection>scm:git:https://github.com/kamichidu/java-lolivimson/</developerConnection>
-        <tag>v0.0.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
