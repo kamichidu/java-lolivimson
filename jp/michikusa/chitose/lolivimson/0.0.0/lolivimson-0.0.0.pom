@@ -1,14 +1,10 @@
-<project
-    xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
-    >
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>jp.michikusa.chitose</groupId>
     <artifactId>lolivimson</artifactId>
     <packaging>jar</packaging>
     <name>lolivimson</name>
-    <version>0.0.0-SNAPSHOT</version>
+    <version>0.0.0</version>
     <url>https://github.com/kamichidu/java-lolivimson</url>
     <licenses>
         <license>
@@ -30,7 +26,7 @@
         <url>scm:git:https://github.com/kamichidu/java-lolivimson/</url>
         <connection>scm:git:https://github.com/kamichidu/java-lolivimson/</connection>
         <developerConnection>scm:git:https://github.com/kamichidu/java-lolivimson/</developerConnection>
-        <tag>HEAD</tag>
+        <tag>v0.0.0</tag>
     </scm>
 
     <distributionManagement>
